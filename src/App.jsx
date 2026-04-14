@@ -4,7 +4,10 @@ import Products from "./pages/products";
 import Sell from "./pages/sell";
 import Settings from "./pages/settings";
 import Profile from "./pages/profile";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import { Route, Routes } from "react-router-dom";
+
 function App() {
   return (
     <Routes>
@@ -14,6 +17,8 @@ function App() {
       <Route path="/sell" element={<Sell />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
   );
 }
