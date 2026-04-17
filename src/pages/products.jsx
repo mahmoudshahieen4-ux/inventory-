@@ -45,7 +45,7 @@ export default function Products() {
     category: "",
     price: "",
     stock: "",
-    status: "متوفر",
+    minThreshold: "",
     image:
       "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=200&q=60",
   });
@@ -65,7 +65,7 @@ export default function Products() {
 
   const totalProducts = products.length;
   const lowStockCount = products.filter(
-    (product) => Number(product.stock) <= 20,
+    (product) => product.status === "نادر",
   ).length;
   const availableCount = products.filter(
     (product) => product.status === "متوفر",
@@ -78,7 +78,7 @@ export default function Products() {
       category: "",
       price: "",
       stock: "",
-      status: "متوفر",
+      minThreshold: "",
       image:
         "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=200&q=60",
     });
@@ -92,7 +92,7 @@ export default function Products() {
       category: product.category,
       price: product.price.replace(/ جنيه$/, ""),
       stock: product.stock,
-      status: product.status,
+      minThreshold: product.minThreshold ?? "",
       image: product.image,
     });
     setFormOpen(true);
@@ -111,13 +111,26 @@ export default function Products() {
     event.preventDefault();
     if (!formState.name.trim() || !formState.category.trim()) return;
 
+    const stockValue = Number(formState.stock.trim() || "0");
+    const thresholdValue =
+      formState.minThreshold.trim() !== ""
+        ? Number(formState.minThreshold.trim())
+        : null;
+    const status =
+      stockValue <= 0
+        ? "غير متوفر"
+        : thresholdValue !== null && stockValue <= thresholdValue
+          ? "نادر"
+          : "متوفر";
+
     const newProduct = {
       id: editingId || Date.now(),
       name: formState.name.trim(),
       category: formState.category.trim(),
       price: `${formState.price.trim() || "0"} جنيه`,
       stock: formState.stock.trim() || "0",
-      status: formState.status,
+      minThreshold: formState.minThreshold.trim(),
+      status,
       image: formState.image,
     };
 
@@ -260,6 +273,9 @@ export default function Products() {
                 <th className="px-4 py-3 text-right font-medium">الفئة</th>
                 <th className="px-4 py-3 text-right font-medium">السعر</th>
                 <th className="px-4 py-3 text-right font-medium">الكمية</th>
+                <th className="px-4 py-3 text-right font-medium">
+                  الحد الأدنى
+                </th>
                 <th className="px-4 py-3 text-right font-medium">الحالة</th>
                 <th className="px-4 py-3 text-right font-medium">الإجراءات</th>
               </tr>
@@ -290,9 +306,18 @@ export default function Products() {
                   <td className="px-4 py-4 align-middle text-slate-900">
                     {product.stock}
                   </td>
+                  <td className="px-4 py-4 align-middle text-slate-900">
+                    {product.minThreshold || "-"}
+                  </td>
                   <td className="px-4 py-4 align-middle">
                     <span
-                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${product.status === "متوفر" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                        product.status === "متوفر"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : product.status === "نادر"
+                            ? "bg-violet-100 text-violet-700"
+                            : "bg-rose-100 text-rose-700"
+                      }`}
                     >
                       {product.status}
                     </span>
@@ -409,19 +434,21 @@ export default function Products() {
 
               <div>
                 <label className="text-sm font-medium text-slate-700">
-                  الحالة
+                  الحد الأدنى للنادر (اختياري)
                 </label>
-                <select
-                  value={formState.status}
+                <input
+                  type="text"
+                  value={formState.minThreshold}
                   onChange={(event) =>
-                    handleFormChange("status", event.target.value)
+                    handleFormChange("minThreshold", event.target.value)
                   }
+                  placeholder="مثلاً 5"
                   className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                >
-                  <option>متوفر</option>
-                  <option>نادر</option>
-                  <option>غير متوفر</option>
-                </select>
+                />
+                <p className="mt-2 text-xs text-slate-500">
+                  إذا وصل المنتج إلى هذه الكمية أو أقل فسيصبح حالة "نادر"
+                  تلقائياً.
+                </p>
               </div>
 
               <div className="lg:col-span-2">
