@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }) {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      <div className="home min-h-screen pt-24 md:pt-20">
+      <div className="home min-h-screen pt-32">
         <Sidebar isOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
         <main className="flex-1 px-4 pb-10 pt-2 h-screen md:ml-72 md:px-6 md:pt-6">
           <div className="mx-auto max-w-7xl">{children}</div>

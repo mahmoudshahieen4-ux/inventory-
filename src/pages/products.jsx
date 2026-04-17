@@ -56,7 +56,8 @@ export default function Products() {
         const query = searchTerm.trim().toLowerCase();
         return (
           product.name.toLowerCase().includes(query) ||
-          product.category.toLowerCase().includes(query)
+          product.category.toLowerCase().includes(query) ||
+          product.id.toString().includes(query)
         );
       }),
     [products, searchTerm],
@@ -172,7 +173,7 @@ export default function Products() {
                   type="text"
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
-                  placeholder="اكتب اسم المنتج أو الفئة..."
+                  placeholder="اكتب اسم المنتج أو رقم المنتج أو الفئة..."
                   className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                 />
                 <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
