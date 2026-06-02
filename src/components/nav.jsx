@@ -1,3 +1,4 @@
+import Logo from "@/assets/logo.png";
 import { useEffect, useRef, useState } from "react";
 import { Search, UserRound, Bell, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -39,9 +40,12 @@ export default function Nav({ isSidebarOpen, setSidebarOpen }) {
             >
               <Menu className="w-5 h-5" />
             </button>
-            <div className="flex h-11 w-11 items-center justify-center rounded-3xl bg-blue-500 text-white text-lg font-bold">
-              سوق
-            </div>
+            <Link to="/" className="flex items-center gap-3">
+              <div className="flex items-center ">
+                <img src={Logo} alt="Logo" className="h-17 w-17 rounded-full overflow-hidden hover:scale-110 transition-all duration-300" />
+                <h1 className="text-2xl font-extrabold text-slate-900 "> هايبر<span className="text-blue-600">ماركت</span></h1>
+              </div>
+            </Link>
           </div>
 
           <div className="hidden sm:flex items-center gap-3">

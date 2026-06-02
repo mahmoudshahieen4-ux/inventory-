@@ -5,7 +5,7 @@ import DashboardLayout from "../components/DashboardLayout";
 export default function Home() {
   return (
     <DashboardLayout>
-      <section className="rounded-4xl bg-white p-6 shadow-sm ring-1 ring-slate-200/80">
+      <section className="rounded-4xl bg-white p-6 pt-15 shadow-sm ring-1 ring-slate-200/80 ">
         <h1 className="text-2xl font-semibold text-slate-900">
           أهلاً بك في لوحة التحكم
         </h1>

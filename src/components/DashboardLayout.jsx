@@ -6,7 +6,7 @@ export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <>
+    <div className="no-scrollbar">
       <Nav isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       {isSidebarOpen && (
         <div
@@ -20,6 +20,6 @@ export default function DashboardLayout({ children }) {
           <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>
-    </>
+    </div>
   );
 }

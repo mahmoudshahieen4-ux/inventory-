@@ -14,7 +14,7 @@ import {
 export default function Sidebar({ isOpen, setSidebarOpen }) {
   return (
     <aside
-      className={`fixed left-0 z-50 flex w-72 flex-col justify-between bg-blue-500 p-4 text-white transition-transform duration-300 ease-in-out ${
+      className={`fixed left-0 z-50 flex w-72 flex-col justify-between bg-blue-500 p-4 text-white transition-transform duration-300 ease-in-out no-scrollbar ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } top-0 h-screen md:top-36 md:h-[calc(100vh-9rem)] md:translate-x-0 md:shadow-xl overflow-y-auto`}
     >

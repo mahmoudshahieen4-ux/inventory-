@@ -1,14 +1,42 @@
 @import "tailwindcss";
-.opened-menu{
-    clip-path: 0 0 0 0;
-    height: 100vw; 
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
 
+/* Hide scrollbar globally */
+html::-webkit-scrollbar {
+  display: none;
 }
-.closed-menu{
-    clip-path: inset(0 0 0 100%);
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+.opened-menu {
+  clip-path: 0 0 0 0;
+  height: 100vw;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.closed-menu {
+  clip-path: inset(0 0 0 100%);
 }
