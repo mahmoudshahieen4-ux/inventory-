@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Search, UserRound, Bell, Menu } from "lucide-react";
+import { Link } from "react-router-dom";
+import { getLowStockItems } from "@/utils/localStorage";
 
 export default function Nav({ isSidebarOpen, setSidebarOpen }) {
   const [lowStockItems, setLowStockItems] = useState([]);
@@ -9,23 +11,9 @@ export default function Nav({ isSidebarOpen, setSidebarOpen }) {
   const hasLowStock = lowStockItems.length > 0;
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchLowStock = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/low-stock", {
-          signal: controller.signal,
-        });
-        if (!response.ok) return;
-
-        const data = await response.json();
-        setLowStockItems(data);
-      } catch (error) {
-        setLowStockItems([]);
-      }
-    };
-
-    fetchLowStock();
+    // Load low stock items from localStorage
+    const items = getLowStockItems();
+    setLowStockItems(items);
 
     const handleClickOutside = (event) => {
       if (bellRef.current && !bellRef.current.contains(event.target)) {
@@ -35,7 +23,6 @@ export default function Nav({ isSidebarOpen, setSidebarOpen }) {
 
     document.addEventListener("click", handleClickOutside);
     return () => {
-      controller.abort();
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -52,15 +39,19 @@ export default function Nav({ isSidebarOpen, setSidebarOpen }) {
             >
               <Menu className="w-5 h-5" />
             </button>
-              <div className="flex h-11 w-11 items-center justify-center rounded-3xl bg-blue-500 text-white text-lg font-bold">
-                سوق
-              </div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-3xl bg-blue-500 text-white text-lg font-bold">
+              سوق
+            </div>
           </div>
 
           <div className="hidden sm:flex items-center gap-3">
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+            <Link
+              to="/profile"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 transition hover:bg-slate-200 hover:text-blue-600"
+              title="الملف الشخصي"
+            >
               <UserRound className="w-5 h-5" />
-            </div>
+            </Link>
             <div className="relative" ref={bellRef}>
               <button
                 type="button"
@@ -97,11 +88,11 @@ export default function Nav({ isSidebarOpen, setSidebarOpen }) {
                               {item.name}
                             </span>
                             <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-rose-700">
-                              {item.stock} left
+                              {item.stock} متبقي
                             </span>
                           </div>
                           <p className="mt-1 text-xs text-slate-500">
-                            مستوى تنبيه: {item.threshold ?? 5}
+                            الفئة: {item.category}
                           </p>
                         </div>
                       ))

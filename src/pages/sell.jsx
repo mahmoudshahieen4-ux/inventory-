@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "../components/DashboardLayout";
+import { getProducts, addSaleRecord } from "@/utils/localStorage";
 
-const availableProducts = [
-  { id: 1, name: "مصل تجميلي", price: 120, stock: 3 },
-  { id: 2, name: "كمامة طبية", price: 15, stock: 15 },
-  { id: 3, name: "أدوات مختبرية", price: 320, stock: 2 },
+const defaultProducts = [
+  { id: 1, name: "مصل تجميلي", price: 120, stock: 25 },
+  { id: 2, name: "كمامة طبية", price: 15, stock: 80 },
+  { id: 3, name: "أدوات مختبرية", price: 320, stock: 12 },
 ];
+
+const convertProductsForSale = (productsData) => {
+  if (!productsData) return defaultProducts;
+  return productsData.map((p) => ({
+    id: p.id,
+    name: p.name,
+    price: parseInt(p.price.replace(/ جنيه$/, "")) || 0,
+    stock: parseInt(p.stock) || 0,
+  }));
+};
 
 const getInventoryAlerts = (items, minThreshold = 5) => {
   return items.reduce((alerts, product) => {
@@ -28,14 +39,23 @@ const getInventoryAlerts = (items, minThreshold = 5) => {
 };
 
 export default function Sell() {
-  const [selectedProduct, setSelectedProduct] = useState(
-    availableProducts[0].id,
-  );
+  const [availableProducts, setAvailableProducts] = useState(defaultProducts);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState("1");
   const [errorMessage, setErrorMessage] = useState("");
   const [cart, setCart] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [alertsOpen, setAlertsOpen] = useState(false);
+
+  // Load products from localStorage on mount
+  useEffect(() => {
+    const productsData = getProducts();
+    const convertedProducts = convertProductsForSale(productsData);
+    setAvailableProducts(convertedProducts);
+    if (convertedProducts.length > 0) {
+      setSelectedProduct(convertedProducts[0].id);
+    }
+  }, []);
 
   const lowStockThreshold = 5;
   const inventoryAlerts = getInventoryAlerts(
@@ -160,6 +180,13 @@ export default function Sell() {
   };
 
   const printInvoice = () => {
+    if (cart.length > 0) {
+      // Save sale to history before printing
+      addSaleRecord({
+        items: cart,
+        total: grandTotal,
+      });
+    }
     window.print();
   };
 

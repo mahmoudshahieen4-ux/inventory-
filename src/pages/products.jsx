@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import DashboardLayout from "../components/DashboardLayout";
+import { getProducts, saveProducts } from "@/utils/localStorage";
 
 const initialProducts = [
   {
@@ -36,7 +37,9 @@ const initialProducts = [
 ];
 
 export default function Products() {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState(
+    () => getProducts() || initialProducts,
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [isFormOpen, setFormOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -49,6 +52,11 @@ export default function Products() {
     image:
       "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=200&q=60",
   });
+
+  // Save products to localStorage whenever they change
+  useEffect(() => {
+    saveProducts(products);
+  }, [products]);
 
   const filteredProducts = useMemo(
     () =>
