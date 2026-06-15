@@ -1,4 +1,4 @@
-import { motion } from "framer-motion"; // استيراد مكتبة الأنيميشن
+import { motion } from "framer-motion"; 
 import { Zap, BrainCircuit } from "lucide-react";
 
 export default function HeroSection({ theme }) {
@@ -12,7 +12,6 @@ export default function HeroSection({ theme }) {
     { id: 7, name: "sass", icon: Zap },
   ];
 
-  // إعدادات حركة ظهور المهارات الفردية بتأثير مرن (Spring)
   const skillContainerVariants = {
     visible: { transition: { staggerChildren: 0.05 } },
   };
@@ -37,7 +36,6 @@ export default function HeroSection({ theme }) {
     </motion.span>
   ));
 
-  // إعدادات الحركة العامة للنصوص والبطاقة (تأثير الصعود والتلاشي الناعم)
   const fadeInUp = {
     hidden: { y: 40, opacity: 0 },
     visible: {
@@ -54,7 +52,6 @@ export default function HeroSection({ theme }) {
         theme === "dark" ? "text-slate-100" : "text-slate-950"
       }`}
     >
-      {/* 1. الخلفية الديناميكية المتدرجة (تتحرك ببطء في الخلفية لتعطي طابعاً حيوياً) */}
       <div
         className={`absolute inset-0 z-0 ${theme === "dark" ? "block" : "hidden"}`}
       >
@@ -83,13 +80,11 @@ export default function HeroSection({ theme }) {
         />
       </div>
 
-      {/* الحاوية الرئيسية تبدأ الأنيميشن فور التحميل */}
       <motion.div
         initial="hidden"
         animate="visible"
         className="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row lg:items-center relative z-10"
       >
-        {/* الجزء الأيسر: النصوص والأزرار */}
         <div className="max-w-2xl space-y-6">
           <motion.p
             variants={fadeInUp}
@@ -137,7 +132,6 @@ export default function HeroSection({ theme }) {
           </motion.div>
         </div>
 
-        {/* الجزء الأيمن: بطاقة محمود التعريفية والمهارات */}
         <motion.div
           variants={{
             hidden: { y: 50, opacity: 0, scale: 0.95 },
@@ -186,7 +180,6 @@ export default function HeroSection({ theme }) {
                 <p className="text-sm uppercase tracking-[0.25em] text-violet-300 mb-2">
                   Skills
                 </p>
-                {/* الحاوية المتحركة للتاغات تأخذ تأثير التتابع الفردي */}
                 <motion.div
                   variants={skillContainerVariants}
                   className="flex flex-wrap gap-2 mt-2 text-xl font-semibold"

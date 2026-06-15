@@ -2,8 +2,6 @@ import { motion } from "framer-motion";
 import { MessageCircle, ArrowRight } from "lucide-react";
 
 export default function ContactSection({ theme }) {
-  // سطر برمجى بسيط للتأكد من القيمة في الـ Console أثناء التطوير
-  console.log("Current theme in Contact:", theme);
 
   const fadeInUp = {
     hidden: { y: 50, opacity: 0 },
@@ -14,7 +12,6 @@ export default function ContactSection({ theme }) {
     },
   };
 
-  // التحقق مما إذا كان الثيم مظلماً سواء كان نصاً أو قيمة منطقية (Boolean)
   const isDark = theme === "dark" || theme === true;
 
   return (
@@ -27,7 +24,6 @@ export default function ContactSection({ theme }) {
         /* حل احتياطي ذهبي: إذا كان موقعك يعتمد على كلاس dark في الـ HTML أو Body */
         dark:bg-slate-950 dark:text-slate-100`}
     >
-      {/* هالة التوهج البنفسجية */}
       <div
         className={`absolute inset-x-0 bottom-0 z-0 h-96 pointer-events-none transition-opacity duration-500 
           ${isDark ? "opacity-100" : "opacity-0"} 
